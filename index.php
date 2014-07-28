@@ -5,10 +5,9 @@ $wurl_api->access_token = $_ENV["WURL_ACCESS_TOKEN"];
 if ($wurl_api->access_token == '' or $wurl_api->access_token == null) {
   $wurl_api->access_token = $_REQUEST['access_token'];
 }
+
 /* Get the id we are requesting */
-#$id = $wurl_api->bridge_get($_REQUEST['id']);
-
-
+$id = $_REQUEST['id'];
 
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -35,14 +34,15 @@ if ($wurl_api->access_token == '' or $wurl_api->access_token == null) {
 <body>
   <p>This is a quick demo on the bridge API.</p>
 
-  <form>
+  <form method="post">
     <input type='text' name="id" value='24_live_another_day'>
     <input type='hidden' name="access_token" value="<?=urlencode($_REQUEST['access_token'])?>">
     <input type='submit' value="Go">
   </form>
   
 <?
-  $bridge_response = $wurl_api->bridge_get($_REQUEST['id']);
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+  $bridge_response = $wurl_api->bridge_get($id);
   
   // A response from the bridge search request has properties of itself and an array of matching entities.  
   $properties = $bridge_response->properties;
@@ -84,6 +84,7 @@ if ($wurl_api->access_token == '' or $wurl_api->access_token == null) {
 
 <? } ?>
 
+<? } ?>
 <script>
 
 
