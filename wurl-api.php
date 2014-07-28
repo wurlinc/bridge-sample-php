@@ -6,7 +6,7 @@ class WurlApi {
   var $client_id;
   var $client_secret;
 
-  const WURL_API_ENDPOINT = "http://api.wurl.com/api";
+  const WURL_API_ENDPOINT = "https://api.wurl.com/api";
 
   function WurlApi($client_id, $client_secret) {
     $this->client_id;
