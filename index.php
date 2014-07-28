@@ -14,6 +14,12 @@ $wurl_api->access_token = $_ENV["WURL_ACCESS_TOKEN"]
 </head>
 <body>
   <p>This is a quick demo on the bridge API.</p>
+  <? if($_REQUEST['id']) { ?>
   <p><?= var_dump($wurl_api->bridge_get($_REQUEST['id']));?></p>
+  <? } ?>
+  <form>
+    <input type='text' name="id" value='24_live_another_day'>
+    <input type='submit'>
+  </form>
 </body>
 </html>
