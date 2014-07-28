@@ -1,11 +1,7 @@
 <?
-
-define('WURL_CLIENT_KEY', "26eff9b0ad7ff9a5163ca9d7d20d09ad61b7200a42c52232de59c7e78b0cbb03");
-define('WURL_SECRET_KEY', "0d5f95b1c18e355fe915a8297c083d84646d7367f59140715bbacfac35b56d77");
-
 require_once('wurl-api.php');
-$wurl_api = new WurlApi(constant("WURL_CLIENT_KEY"), constant("WURL_SECRET_KEY"));
-
+$wurl_api = new WurlApi();
+$wurl_api->access_token = $_ENV["WURL_ACCESS_TOKEN"]
 /* Get the id we are requesting */
 #$id = $wurl_api->bridge_get($_REQUEST['id']);
 
