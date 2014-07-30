@@ -12,7 +12,16 @@ $id = $_REQUEST['id'];
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <title>Bridge API Query Demo</title>
+ <script src="scripts/require.js"></script>
+ <script>
+   require.config({
+    paths: {
+    },
+    waitSeconds: 15
+  });
+  </script>
+ <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+ <title>Bridge API Query Demo</title>
   <style>
   
 #video_area {
@@ -123,7 +132,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <div id="video_area">
       <div id="video_container">
+      <!-- Video tag will get rendered in here -->
       &nbsp;
+      </div>
+      <div id="video_controls">
+        <span id="playhead">0:00:00</div>
+        <button id="play_pause" value="play">play</button>
+        <button id="stop" value="play">stop</button>
       </div>
     </div>
 
@@ -165,45 +180,20 @@ function play_video(target) {
   var json_playback = JSON.parse(decodeURIComponent(target.dataset.playback));
   var container = document.getElementById("video_container");
   var playback_info = JSON.parse(decodeURIComponent(target.dataset.playback))[0];
-  switch(playback_info.provider) {
-    case "youtube": // YouTube player. Load the API. use videoId to specify the video directly.
-      window.video_id = playback_info.videoId;
-      if (document.getElementsByClassName("youtube_script").length > 0) {
-        youtube_player.stopVideo();
-        youtube_player.loadVideoById(playback_info.videoId);
-      } else {
-        var tag = document.createElement('script');
-        tag.setAttribute("class", "youtube_script");
-        tag.src = "https://www.youtube.com/iframe_api";
-        var firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-      }
-
-    // There's also dailymotion, mp4 and other entries.
-
-    default: // Some other embed-style player. Set the innerHTML on the embed.
-      container.innerHTML = playback_info.embed.replace(/\+/g, " ");
-
+  // Current playback item
+  window.playback_info = playback_info;
+  if (playback_info.provider == '') {
+    playback_info.provider = "html5"; // No provider but a video asset? we'll use html5 events on a video tag.
   }
+  requirejs.onError = function (err) {
+    // No script for this provider type? Just put the embed task. We won't have events though.
+    container.innerHTML = playback_info.embed.replace(/\+/g, " ");
+  };
+  require(["scripts/"+playback_info.provider+"-playback.js"], function(player_js) {
+  });
+
 }
 
-// 3. This function creates an <iframe> (and YouTube player)
-//    after the API code downloads.
-function onYouTubeIframeAPIReady() {
-   window.youtube_player = new YT.Player('video_container', {
-      height: '390',
-      width: '640',
-      videoId: window.video_id,
-      playerVars: { 'autoplay': 1, 'controls': 0 },
-      events: {
-        // Code your YouTube player the normal way... You may typically end up with a JS file for each overall player type, so you can support events, etc.
-/*
-        'onReady': onPlayerReady,
-        'onStateChange': onPlayerStateChange
-*/
-      }
-   });
-}
 </script>
   
   
