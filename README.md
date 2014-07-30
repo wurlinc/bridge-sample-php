@@ -1,7 +1,7 @@
 # Bridge Getting Started Guide
 
 The steps below should get you up and running with a live web app that
-makes Bridge queries with minimal setup.
+performs Bridge queries with minimal setup.
 
 ## Prerequisites
 
@@ -16,11 +16,11 @@ Register as a developer and create an application.  Follow the steps in
 [Getting Started](http://developers.wurl.com/pages/guides/getting-started).
 
 Once you have completed these steps, you will need your access token for
-the subsequent step below.
+the subsequent steps below.
 
 ## Checkout the sample code
 
-TBD - Steps to clone the repo
+    git clone https://github.com/wurlinc/bridge-sample-php.git
 
 ## Create a Heroku Application
 
