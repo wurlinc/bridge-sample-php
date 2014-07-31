@@ -21,6 +21,7 @@ $id = $_REQUEST['id'];
   });
   </script>
  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+ <script src="scripts/view.js"></script>
  <title>Bridge API Query Demo</title>
   <style>
   
@@ -183,14 +184,15 @@ function play_video(target) {
   // Current playback item
   window.playback_info = playback_info;
   if (playback_info.provider == '') {
-    playback_info.provider = "html5"; // No provider but a video asset? we'll use html5 events on a video tag.
+    // No provider but a video asset? we'll use html5 events on a video tag, and html5-playback.js
+    playback_info.provider = "html5";
   }
   requirejs.onError = function (err) {
     // No script for this provider type? Just put the embed task. We won't have events though.
     container.innerHTML = playback_info.embed.replace(/\+/g, " ");
   };
   require(["scripts/"+playback_info.provider+"-playback.js"], function(player_js) {
-  });
+  }); 
 
 }
 

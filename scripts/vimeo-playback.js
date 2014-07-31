@@ -1,14 +1,22 @@
 /** A minimalist sample of a Vimeo Events playing implementation. */
 window.Vimeo = {
   play: function(playerID) {
-    document.getElementById("play_pause").innerHTML="pause";
+    PlayerView.set_state_playing();
   },
   seek: function(playerID) {
+  },
+  stop: function(playerID) {
+    PlayerView.set_state_stopped();
+  },
+  pause: function(playerID) {
+    PlayerView.set_state_paused();
   },
   ready: function() {
     var flp = Froogaloop($("iframe", document.getElementById("video_container"))[0])
     flp.addEvent('play', Vimeo.play);
     flp.addEvent('seek', Vimeo.seek);
+    flp.addEvent('finish', Vimeo.stop);
+    flp.addEvent('pause', Vimeo.pause);
     flp.api('play'); // Autoplay.
   }
 }
